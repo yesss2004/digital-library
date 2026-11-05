@@ -16,6 +16,32 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [LibraryController::class, 'discover'])->name('discover');
+
+Route::get('/healthz', function () {
+    $manifest = public_path('build/manifest.json');
+
+    $checks = [
+        'status' => 'ok',
+        'php' => PHP_VERSION,
+        'laravel' => app()->version(),
+        'environment' => app()->environment(),
+        'debug' => (bool) config('app.debug'),
+        'url' => config('app.url'),
+        'anyflip_books' => count(config('library.anyflip_books', [])),
+        'vite_manifest' => is_file($manifest),
+        'storage_writable' => is_writable(storage_path()),
+    ];
+
+    try {
+        \Illuminate\Support\Facades\DB::connection()->getPdo();
+        $checks['database'] = 'ok';
+    } catch (\Throwable $exception) {
+        $checks['database'] = 'unavailable';
+    }
+
+    return response()->json($checks);
+})->name('healthz');
+
 Route::get('/portal-admin', function () {
     return view('pages.admin-portal');
 })->name('portal.admin');

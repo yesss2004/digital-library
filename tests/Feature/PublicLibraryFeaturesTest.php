@@ -140,6 +140,15 @@ class PublicLibraryFeaturesTest extends TestCase
             ->assertDontSee('Pedoman Penyusunan Rencana Penanggulangan Bencana');
     }
 
+    public function test_health_check_route_reports_application_state(): void
+    {
+        $this->getJson(route('healthz'))
+            ->assertOk()
+            ->assertJsonPath('status', 'ok')
+            ->assertJsonPath('vite_manifest', true)
+            ->assertJsonPath('database', 'ok');
+    }
+
     public function test_admin_access_is_hidden_from_public_nav_but_available_via_portal_route(): void
     {
         $this->get(route('discover'))
