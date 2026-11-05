@@ -1,7 +1,6 @@
 {
     "$schema": "https://openapi.vercel.sh/vercel.json",
     "version": 2,
-    "framework": null,
     "builds": [
         { "src": "/api/index.php", "use": "vercel-php@0.7.4" },
         { "src": "/public/**", "use": "@vercel/static" }
