@@ -1,0 +1,20 @@
+# Dependencies are installed by Vercel (npm) and the vercel-php runtime (composer)
+/vendor
+/node_modules
+
+# Local secrets and generated runtime files
+.env
+.env.*
+/storage/logs/*.log
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/framework/testing/*
+/bootstrap/cache/*.php
+
+# Development-only files
+/.git
+/.idea
+/.vscode
+/tests
+/phpunit.xml

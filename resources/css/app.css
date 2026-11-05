@@ -620,6 +620,47 @@ a {
     margin-top: 24px;
 }
 
+.bookcase-section {
+    margin-top: 30px;
+}
+
+.bookcase-section .section-head {
+    align-items: center;
+}
+
+.bookcase-section .page-subtitle {
+    margin: 8px 0 0;
+}
+
+.anyflip-book-grid {
+    margin-top: 18px;
+}
+
+.anyflip-book-cover {
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background: linear-gradient(135deg, #173b57, #3b91a2);
+}
+
+.anyflip-book-cover::before,
+.anyflip-book-cover::after {
+    display: none;
+}
+
+.anyflip-book-cover .cover-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+}
+
+.library-catalog-head {
+    margin-top: 38px;
+}
+
 .result-count {
     margin-top: 18px;
     color: var(--muted);
@@ -793,6 +834,77 @@ a {
 
 .site-footer address a:hover {
     color: #65cfce;
+}
+
+.admin-shell {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #0d1820 0%, #0e171c 100%);
+}
+
+.admin-header {
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(135deg, #0a4d5d 0%, #0f6a7d 50%, #0d5b63 100%);
+}
+
+.admin-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 18px 24px;
+}
+
+.admin-brand {
+    margin: 0;
+    color: #f2f6f5;
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
+}
+
+.admin-topbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-topbar-link {
+    color: #dffaf8;
+    font-size: 0.8rem;
+    text-decoration: none;
+}
+
+.admin-inline-form {
+    margin: 0;
+}
+
+.admin-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 24px 56px;
+}
+
+.admin-portal-page {
+    display: grid;
+    place-items: center;
+    min-height: calc(100vh - 160px);
+    padding: 30px 16px;
+}
+
+.admin-portal-card {
+    width: min(100%, 560px);
+    padding: clamp(24px, 5vw, 42px);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: rgba(17, 29, 35, 0.9);
+    box-shadow: 0 22px 54px rgba(0, 0, 0, 0.2);
+}
+
+.admin-portal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
 }
 
 .admin-panel {

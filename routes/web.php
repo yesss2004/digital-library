@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [LibraryController::class, 'discover'])->name('discover');
+Route::get('/portal-admin', function () {
+    return view('pages.admin-portal');
+})->name('portal.admin');
 Route::get('/search', [LibraryController::class, 'search'])->name('search');
 
 Route::get('/categories', [LibraryController::class, 'categories'])->name('categories.index');

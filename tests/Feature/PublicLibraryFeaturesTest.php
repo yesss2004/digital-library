@@ -120,4 +120,36 @@ class PublicLibraryFeaturesTest extends TestCase
             ->assertSee('Buku Dengan PDF')
             ->assertSee('Unduh PDF');
     }
+
+    public function test_library_page_shows_only_the_anyflip_bookcase(): void
+    {
+        $this->get(route('library'))
+            ->assertOk()
+            ->assertSee('Koleksi AnyFlip')
+            ->assertSee('Buka rak AnyFlip')
+            ->assertDontSee('Koleksi lainnya')
+            ->assertDontSee('11 koleksi tersedia');
+    }
+
+    public function test_discover_page_shows_only_the_anyflip_bookcase(): void
+    {
+        $this->get(route('discover'))
+            ->assertOk()
+            ->assertSee('Jelajahi koleksi')
+            ->assertSee('Buka flipbook di AnyFlip')
+            ->assertDontSee('Pedoman Penyusunan Rencana Penanggulangan Bencana');
+    }
+
+    public function test_admin_access_is_hidden_from_public_nav_but_available_via_portal_route(): void
+    {
+        $this->get(route('discover'))
+            ->assertOk()
+            ->assertDontSee('Admin')
+            ->assertDontSee(route('admin.login'));
+
+        $this->get(route('portal.admin'))
+            ->assertOk()
+            ->assertSee('Masuk Admin')
+            ->assertSee(route('admin.login'));
+    }
 }

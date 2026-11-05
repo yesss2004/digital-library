@@ -28,14 +28,6 @@
                         <a href="{{ route('discover') }}#tentang">Profil</a>
                         <a href="{{ route('categories.index') }}" @if (request()->routeIs('categories.*')) aria-current="page" @endif>Informasi</a>
                         <a href="{{ route('library') }}" @if (request()->routeIs('library', 'books.*')) aria-current="page" @endif>Publikasi</a>
-                        <a href="{{ route('downloads') }}" @if (request()->routeIs('downloads')) aria-current="page" @endif>Unduhan</a>
-                        <a href="{{ route('favorites') }}" @if (request()->routeIs('favorites')) aria-current="page" @endif>Favorit</a>
-                        <a href="{{ route('help') }}" @if (request()->routeIs('help')) aria-current="page" @endif>Bantuan</a>
-                        @if (auth()->check() && auth()->user()->isAdmin())
-                            <a href="{{ route('admin.dashboard') }}">Admin</a>
-                        @else
-                            <a href="{{ route('admin.login') }}">Admin</a>
-                        @endif
                     </nav>
                 </div>
 
@@ -69,10 +61,7 @@
                 </address>
                 <nav class="footer-links" aria-label="Navigasi sekunder">
                     <a href="{{ route('library') }}">Semua koleksi</a>
-                    <a href="{{ route('downloads') }}">Unduhan</a>
-                    <a href="{{ route('favorites') }}">Favorit</a>
                     <a href="{{ route('settings') }}">Pengaturan</a>
-                    <a href="{{ route('help') }}">Bantuan</a>
                 </nav>
             </footer>
         </div>

@@ -12,18 +12,22 @@
             <a class="btn btn-secondary" href="{{ route('discover') }}">&larr; Kembali ke Discover</a>
         </div>
 
-        @if (count($books))
-            <div class="result-count">{{ count($books) }} koleksi tersedia</div>
-            <section class="book-grid" aria-label="Koleksi perpustakaan">
-                @foreach ($books as $book)
-                    @include('partials.book-card', ['book' => $book])
+        <section class="bookcase-section" aria-labelledby="anyflip-bookcase-title">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow">RAK DIGITAL</p>
+                    <h2 class="section-title" id="anyflip-bookcase-title">Koleksi AnyFlip</h2>
+                    <p class="page-subtitle">Jelajahi {{ count($anyflipBooks) }} buku yang tersedia di rak digital.</p>
+                </div>
+                <a class="btn btn-secondary" href="{{ config('library.anyflip_bookcase_url') }}">
+                    Buka rak AnyFlip
+                </a>
+            </div>
+            <section class="book-grid anyflip-book-grid" aria-label="Buku dari rak AnyFlip">
+                @foreach ($anyflipBooks as $book)
+                    @include('partials.anyflip-card', ['book' => $book])
                 @endforeach
             </section>
-        @else
-            <div class="empty-state">
-                <strong>Belum ada koleksi</strong>
-                Koleksi perpustakaan akan tampil di sini setelah ditambahkan oleh admin.
-            </div>
-        @endif
+        </section>
     </div>
 @endsection

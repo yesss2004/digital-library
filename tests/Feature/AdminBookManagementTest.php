@@ -141,7 +141,9 @@ class AdminBookManagementTest extends TestCase
         $this->assertSame($admin->id, $book->created_by);
         Storage::disk('public')->assertExists($book->cover_image);
 
-        $this->get('/')->assertOk()->assertSee('Panduan Siaga Longsor');
+        $this->flushSession();
+
+        $this->get('/')->assertOk()->assertDontSee('Panduan Siaga Longsor');
         $this->get('/categories/mitigasi-bencana')->assertOk()->assertSee('Panduan Siaga Longsor');
         $this->get('/books/panduan-siaga-longsor')->assertOk()->assertSee('Panduan kesiapsiagaan');
         $this->get('/books/panduan-siaga-longsor/read')

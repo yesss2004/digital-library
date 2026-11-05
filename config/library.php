@@ -10,6 +10,14 @@
 */
 
 return [
+    'anyflip_bookcase_url' => 'https://anyflip.com/bookcase/gbjub/',
+    'anyflip_books' => json_decode(
+        file_get_contents(__DIR__.'/anyflip-books.json'),
+        true,
+        512,
+        JSON_THROW_ON_ERROR
+    ),
+
     'categories' => [
         [
             'slug' => 'regulasi-kebencanaan',

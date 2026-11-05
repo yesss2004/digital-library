@@ -16,7 +16,7 @@ class LibraryController extends Controller
     public function discover()
     {
         return view('discover', [
-            'books' => $this->bookList(),
+            'anyflipBooks' => config('library.anyflip_books', []),
             'categories' => $this->categoryList(),
         ]);
     }
@@ -152,7 +152,7 @@ class LibraryController extends Controller
     public function library()
     {
         return view('pages.library', [
-            'books' => $this->bookList(),
+            'anyflipBooks' => config('library.anyflip_books', []),
         ]);
     }
 

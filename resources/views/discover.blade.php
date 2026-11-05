@@ -13,12 +13,12 @@
         </div>
 
         <section class="recommendations" aria-label="Koleksi pilihan">
-            @forelse ($books as $book)
-                @include('partials.book-card', ['book' => $book])
+            @forelse ($anyflipBooks as $book)
+                @include('partials.anyflip-card', ['book' => $book])
             @empty
                 <div class="empty-state">
                     <strong>Belum ada koleksi</strong>
-                    Koleksi perpustakaan akan tampil di sini setelah ditambahkan oleh admin.
+                    Koleksi perpustakaan akan tampil di sini setelah ditambahkan.
                 </div>
             @endforelse
         </section>
