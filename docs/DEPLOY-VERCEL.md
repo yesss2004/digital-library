@@ -7,34 +7,38 @@ karena Vercel tidak menjalankan PHP secara bawaan.
 
 | File | Fungsi |
 | --- | --- |
-| `vercel.json` | Menjalankan Vite, menyajikan folder `public`, dan mengarahkan request PHP ke `api/index.php`. |
+| `vercel.json` | Menjalankan function PHP, menyajikan aset dari `public/`, dan mengarahkan request lain ke Laravel. |
 | `api/index.php` | Entry point Laravel untuk Vercel. Storage dipindah ke `/tmp` karena filesystem Vercel read-only. |
 | `.vercelignore` | Mencegah `vendor`, `node_modules`, dan `.env` ikut di-upload. |
-| `public/build` | Hasil build Vite ikut di-commit agar manifest aset selalu tersedia di dalam function PHP. |
+| `public/build` | Hasil build Vite **ikut di-commit** supaya aset dan manifest selalu tersedia. |
 
-## 1. Push kode terbaru
+## 1. Build aset lalu push
 
-Vercel hanya membangun kode yang ada di GitHub. Pastikan semua perubahan sudah di-commit dan di-push:
+Setiap kali CSS/JS diubah, build ulang aset sebelum push:
 
 ```powershell
+npm install
+npm run build
+
 git add .
-git commit -m "Siapkan deploy Vercel dan koleksi AnyFlip"
+git commit -m "Update aplikasi"
 git push origin main
 ```
 
-## 2. Deploy
+Vercel akan otomatis membuat deployment baru dari commit terakhir.
 
-1. Buka project di <https://vercel.com>.
-2. Buka **Settings → Build & Development Settings**.
-3. Pastikan:
-   - **Framework Preset**: `Other`
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `public`
-   - **Install Command**: `npm install`
-4. Klik **Deploy** (atau **Redeploy** pada deployment terakhir).
+## 2. Pengaturan project di Vercel
 
-Nilai di atas sudah ditulis di `vercel.json`, jadi seharusnya otomatis. Jika dashboard
-masih menyimpan `dist`, ubah manual ke `public`.
+Di **Settings → Build & Development Settings**:
+
+- **Framework Preset**: `Other`
+- **Build Command**: kosongkan / biarkan default
+- **Output Directory**: kosongkan / biarkan default
+- **Install Command**: kosongkan / biarkan default
+
+`vercel.json` sudah mengatur semuanya. Jika dashboard masih menyimpan
+`dist` dari percobaan sebelumnya, kosongkan atau ubah ke `Other` agar Vercel
+tidak menjalankan build static yang membutuhkan folder `dist`.
 
 ## 3. Environment Variables
 
@@ -92,5 +96,5 @@ Setelah itu isi env yang sama di dashboard Vercel, lalu redeploy.
   buku AnyFlip.
 - Buka `https://nama-project.vercel.app/admin/login` untuk masuk ke panel admin
   (butuh database yang sudah dimigrasi).
-- Jika aset/CSS tidak muncul setelah mengubah CSS, jalankan `npm run build` lalu
-  commit ulang folder `public/build`.
+- Jika CSS/JS berubah tetapi tampilan tidak berubah, jalankan `npm run build`,
+  commit folder `public/build`, lalu push ulang.
