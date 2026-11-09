@@ -247,10 +247,19 @@ class LibraryController extends Controller
      */
     private function bookList(): array
     {
-        $newBooks = Book::latest()
-            ->get()
-            ->map(fn (Book $book) => $book->toCatalogArray())
-            ->all();
+        $newBooks = [];
+
+        try {
+            $newBooks = Book::latest()
+                ->get()
+                ->map(fn (Book $book) => $book->toCatalogArray())
+                ->all();
+        } catch (\Throwable $exception) {
+            // On hosts without a database (for example a fresh Vercel
+            // deployment) the public catalog should still render using the
+            // bundled catalog from config/library.php instead of a 500 page.
+            report($exception);
+        }
 
         return [...$newBooks, ...config('library.books', [])];
     }

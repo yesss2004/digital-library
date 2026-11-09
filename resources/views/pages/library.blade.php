@@ -24,9 +24,14 @@
                 </a>
             </div>
             <section class="book-grid anyflip-book-grid" aria-label="Buku dari rak AnyFlip">
-                @foreach ($anyflipBooks as $book)
+                @forelse ($anyflipBooks as $book)
                     @include('partials.anyflip-card', ['book' => $book])
-                @endforeach
+                @empty
+                    <div class="empty-state">
+                        <strong>Belum ada koleksi</strong>
+                        Daftar buku AnyFlip belum tersedia. Coba muat ulang halaman ini.
+                    </div>
+                @endforelse
             </section>
         </section>
     </div>

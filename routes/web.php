@@ -28,6 +28,8 @@ Route::get('/healthz', function () {
         'debug' => (bool) config('app.debug'),
         'url' => config('app.url'),
         'anyflip_books' => count(config('library.anyflip_books', [])),
+        'catalog_books' => count(config('library.books', [])),
+        'categories' => count(config('library.categories', [])),
         'vite_manifest' => is_file($manifest),
         'storage_writable' => is_writable(storage_path()),
     ];
@@ -35,6 +37,12 @@ Route::get('/healthz', function () {
     try {
         \Illuminate\Support\Facades\DB::connection()->getPdo();
         $checks['database'] = 'ok';
+
+        try {
+            $checks['database_books'] = \App\Models\Book::count();
+        } catch (\Throwable $exception) {
+            $checks['database_books'] = 'unavailable';
+        }
     } catch (\Throwable $exception) {
         $checks['database'] = 'unavailable';
     }
