@@ -143,9 +143,23 @@ class LibraryController extends Controller
      */
     public function library()
     {
+        $books = AnyflipCatalog::books();
+        $categories = collect(config('library.categories', []))->keyBy('slug');
+
+        $groups = $categories
+            ->map(fn (array $category) => [
+                'category' => $category,
+                'books' => array_values(array_filter(
+                    $books,
+                    fn (array $book) => $book['category'] === $category['slug']
+                )),
+            ])
+            ->filter(fn (array $group) => count($group['books']) > 0)
+            ->values();
+
         return view('pages.library', [
-            'anyflipBooks' => AnyflipCatalog::books(),
-            'categories' => collect(config('library.categories', []))->keyBy('slug'),
+            'anyflipBooks' => $books,
+            'groups' => $groups,
         ]);
     }
 

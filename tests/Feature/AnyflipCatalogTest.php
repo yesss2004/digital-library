@@ -50,4 +50,15 @@ class AnyflipCatalogTest extends TestCase
             ->assertSee($book['url'])
             ->assertSee('Buka flipbook di AnyFlip');
     }
+
+    public function test_publications_page_groups_books_by_category(): void
+    {
+        $this->get('/library')
+            ->assertOk()
+            ->assertSee('publish-group-title')
+            ->assertSee('Regulasi Kebencanaan')
+            ->assertSee('Sistem Peringatan Dini')
+            ->assertSee('Publikasi dan Penelitian')
+            ->assertSee(count(config('library.anyflip_books', [])).' buku');
+    }
 }

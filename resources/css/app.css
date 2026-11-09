@@ -661,6 +661,33 @@ a {
     margin-top: 18px;
 }
 
+.publish-groups {
+    display: grid;
+    gap: 30px;
+    margin-top: 22px;
+}
+
+.publish-group-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+}
+
+.publish-group-title {
+    margin: 0;
+    color: var(--ink);
+    font-size: 1.05rem;
+}
+
+.publish-group-count {
+    color: var(--muted);
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
 .publish-list {
     display: grid;
     gap: 10px;
