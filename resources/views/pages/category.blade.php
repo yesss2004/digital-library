@@ -14,9 +14,9 @@
 
         @if (count($books))
             <div class="result-count">{{ count($books) }} buku dalam kategori ini</div>
-            <section class="book-grid" aria-label="Buku {{ $category['name'] }}">
+            <section class="book-grid anyflip-book-grid" aria-label="Buku {{ $category['name'] }}">
                 @foreach ($books as $book)
-                    @include('partials.book-card', ['book' => $book])
+                    @include('partials.anyflip-card', ['book' => $book])
                 @endforeach
             </section>
         @else

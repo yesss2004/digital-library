@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Support\AnyflipCatalog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -16,8 +17,8 @@ class LibraryController extends Controller
     public function discover()
     {
         return view('discover', [
-            'anyflipBooks' => config('library.anyflip_books', []),
-            'categories' => $this->categoryList(),
+            'anyflipBooks' => AnyflipCatalog::books(),
+            'categories' => $this->categoryListWithCounts(),
         ]);
     }
 
@@ -26,16 +27,7 @@ class LibraryController extends Controller
      */
     public function categories()
     {
-        $books = $this->bookList();
-
-        $categories = array_map(function (array $category) use ($books) {
-            $category['total_books'] = count(array_filter(
-                $books,
-                fn (array $book) => $book['category'] === $category['slug']
-            ));
-
-            return $category;
-        }, $this->categoryList());
+        $categories = $this->categoryListWithCounts();
 
         return view('pages.categories', compact('categories'));
     }
@@ -48,7 +40,7 @@ class LibraryController extends Controller
         $category = $this->findCategory($slug);
         abort_if($category === null, 404);
 
-        $books = $this->booksByCategory($slug);
+        $books = AnyflipCatalog::booksInCategory($slug);
 
         return view('pages.category', compact('category', 'books'));
     }
@@ -152,7 +144,7 @@ class LibraryController extends Controller
     public function library()
     {
         return view('pages.library', [
-            'anyflipBooks' => config('library.anyflip_books', []),
+            'anyflipBooks' => AnyflipCatalog::books(),
         ]);
     }
 
@@ -273,6 +265,22 @@ class LibraryController extends Controller
     }
 
     /**
+     * Category list with the number of AnyFlip books in each category.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function categoryListWithCounts(): array
+    {
+        $counts = AnyflipCatalog::counts();
+
+        return array_map(function (array $category) use ($counts) {
+            $category['total_books'] = $counts[$category['slug']] ?? 0;
+
+            return $category;
+        }, $this->categoryList());
+    }
+
+    /**
      * @return array<string, mixed>|null
      */
     private function findBook(string $slug): ?array
@@ -298,16 +306,6 @@ class LibraryController extends Controller
         }
 
         return null;
-    }
-
-    /**
-     * @return array<int, array<string, mixed>>
-     */
-    private function booksByCategory(string $slug): array
-    {
-        return array_values(array_filter($this->bookList(), function (array $book) use ($slug) {
-            return $book['category'] === $slug;
-        }));
     }
 
     /**

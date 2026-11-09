@@ -47,7 +47,7 @@ class ExampleTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('Mitigasi Bencana');
-        $response->assertSee('Panduan Mitigasi Banjir Sungai Code');
+        $response->assertSee('Di Balik Peristiwa Tanah Longsor Bukit Menoreh Purworejo');
     }
 
     public function test_search_finds_disaster_library_collections(): void
