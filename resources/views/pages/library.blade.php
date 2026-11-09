@@ -23,15 +23,31 @@
                     Buka rak AnyFlip
                 </a>
             </div>
-            <section class="book-grid anyflip-book-grid" aria-label="Buku dari rak AnyFlip">
-                @forelse ($anyflipBooks as $book)
-                    @include('partials.anyflip-card', ['book' => $book])
-                @empty
+            <section class="publish-section" aria-label="Buku dari rak AnyFlip">
+                @if (count($anyflipBooks))
+                    <ul class="publish-list">
+                        @foreach ($anyflipBooks as $book)
+                            <li class="publish-item">
+                                <a class="publish-cover" href="{{ $book['url'] }}" tabindex="-1" aria-hidden="true">
+                                    <img src="{{ $book['cover'] }}" alt="" loading="lazy">
+                                </a>
+                                <div class="publish-info">
+                                    <a class="publish-title" href="{{ $book['url'] }}">{{ $book['title'] }}</a>
+                                    <span class="publish-meta">
+                                        {{ $categories[$book['category']]['name'] ?? 'Publikasi' }}
+                                        <span aria-hidden="true">&middot;</span> AnyFlip
+                                    </span>
+                                </div>
+                                <a class="btn btn-sm publish-action" href="{{ $book['url'] }}">Baca</a>
+                            </li>
+                        @endforeach
+                    </ul>
+                @else
                     <div class="empty-state">
                         <strong>Belum ada koleksi</strong>
                         Daftar buku AnyFlip belum tersedia. Coba muat ulang halaman ini.
                     </div>
-                @endforelse
+                @endif
             </section>
         </section>
     </div>

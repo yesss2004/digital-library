@@ -145,6 +145,7 @@ class LibraryController extends Controller
     {
         return view('pages.library', [
             'anyflipBooks' => AnyflipCatalog::books(),
+            'categories' => collect(config('library.categories', []))->keyBy('slug'),
         ]);
     }
 
