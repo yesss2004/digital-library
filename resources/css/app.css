@@ -1232,13 +1232,44 @@ a {
     }
 
     .header-bar {
+        flex-wrap: wrap;
         align-items: center;
         justify-content: flex-start;
         gap: 14px;
     }
 
     .site-nav {
+        display: flex;
+        width: 100%;
+        gap: 6px;
+        margin-top: 4px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(255, 255, 255, 0.18);
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .site-nav::-webkit-scrollbar {
         display: none;
+    }
+
+    .site-nav a {
+        flex: 1 0 auto;
+        padding: 9px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.1);
+        font-size: 0.7rem;
+        text-align: center;
+        white-space: nowrap;
+        text-decoration: none;
+    }
+
+    .site-nav a[aria-current="page"] {
+        background: #fff;
+        color: #123d56;
+        text-decoration: none;
     }
 
     .brand-logo-button {
