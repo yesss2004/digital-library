@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'My Library')
+@section('title', 'Publikasi')
 
 @section('content')
     <div class="page-wrap">
         <div class="page-head">
             <div>
-                <h1 class="page-title">My Library</h1>
+                <h1 class="page-title">Publikasi</h1>
                 <p class="page-subtitle">Seluruh koleksi yang tersedia di perpustakaan digital.</p>
             </div>
             <a class="btn btn-secondary" href="{{ route('discover') }}">&larr; Kembali ke Discover</a>
@@ -27,28 +27,19 @@
                 @forelse ($groups as $group)
                     <section class="publish-group" aria-labelledby="publish-{{ $group['category']['slug'] }}">
                         <div class="publish-group-head">
-                            <h2 class="publish-group-title" id="publish-{{ $group['category']['slug'] }}">
-                                {{ $group['category']['name'] }}
-                            </h2>
+                            <div class="publish-group-title-wrap">
+                                <span class="publish-group-index" aria-hidden="true">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                                <h2 class="publish-group-title" id="publish-{{ $group['category']['slug'] }}">
+                                    {{ $group['category']['name'] }}
+                                </h2>
+                            </div>
                             <span class="publish-group-count">{{ count($group['books']) }} buku</span>
                         </div>
-                        <ul class="publish-list">
+                        <section class="book-grid anyflip-book-grid" aria-label="Buku {{ $group['category']['name'] }}">
                             @foreach ($group['books'] as $book)
-                                <li class="publish-item">
-                                    <a class="publish-cover" href="{{ $book['url'] }}" tabindex="-1" aria-hidden="true">
-                                        <img src="{{ $book['cover'] }}" alt="" loading="lazy">
-                                    </a>
-                                    <div class="publish-info">
-                                        <a class="publish-title" href="{{ $book['url'] }}">{{ $book['title'] }}</a>
-                                        <span class="publish-meta">
-                                            {{ $group['category']['name'] }}
-                                            <span aria-hidden="true">&middot;</span> AnyFlip
-                                        </span>
-                                    </div>
-                                    <a class="btn btn-sm publish-action" href="{{ $book['url'] }}">Baca</a>
-                                </li>
+                                @include('partials.anyflip-card', ['book' => $book])
                             @endforeach
-                        </ul>
+                        </section>
                     </section>
                 @empty
                     <div class="empty-state">
