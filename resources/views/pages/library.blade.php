@@ -17,7 +17,7 @@
                 <div>
                     <p class="eyebrow">RAK DIGITAL</p>
                     <h2 class="section-title" id="anyflip-bookcase-title">Koleksi AnyFlip</h2>
-                    <p class="page-subtitle">Jelajahi {{ count($anyflipBooks) }} buku yang tersedia, dikelompokkan berdasarkan kategori.</p>
+                    <p class="page-subtitle">Jelajahi {{ $totalBooks }} buku yang tersedia, dikelompokkan berdasarkan kategori.</p>
                 </div>
                 <a class="btn btn-secondary" href="{{ config('library.anyflip_bookcase_url') }}">
                     Buka rak AnyFlip
@@ -37,7 +37,11 @@
                         </div>
                         <section class="book-grid anyflip-book-grid" aria-label="Buku {{ $group['category']['name'] }}">
                             @foreach ($group['books'] as $book)
-                                @include('partials.anyflip-card', ['book' => $book])
+                                @if (($book['source'] ?? null) === 'database')
+                                    @include('partials.book-card', ['book' => $book])
+                                @else
+                                    @include('partials.anyflip-card', ['book' => $book])
+                                @endif
                             @endforeach
                         </section>
                     </section>

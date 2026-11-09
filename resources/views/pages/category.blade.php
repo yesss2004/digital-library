@@ -16,7 +16,11 @@
             <div class="result-count">{{ count($books) }} buku dalam kategori ini</div>
             <section class="book-grid anyflip-book-grid" aria-label="Buku {{ $category['name'] }}">
                 @foreach ($books as $book)
-                    @include('partials.anyflip-card', ['book' => $book])
+                    @if (($book['source'] ?? null) === 'database')
+                        @include('partials.book-card', ['book' => $book])
+                    @else
+                        @include('partials.anyflip-card', ['book' => $book])
+                    @endif
                 @endforeach
             </section>
         @else

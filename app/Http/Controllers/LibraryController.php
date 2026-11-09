@@ -40,7 +40,7 @@ class LibraryController extends Controller
         $category = $this->findCategory($slug);
         abort_if($category === null, 404);
 
-        $books = AnyflipCatalog::booksInCategory($slug);
+        $books = $this->booksInCategory($slug);
 
         return view('pages.category', compact('category', 'books'));
     }
@@ -143,23 +143,12 @@ class LibraryController extends Controller
      */
     public function library()
     {
-        $books = AnyflipCatalog::books();
-        $categories = collect(config('library.categories', []))->keyBy('slug');
-
-        $groups = $categories
-            ->map(fn (array $category) => [
-                'category' => $category,
-                'books' => array_values(array_filter(
-                    $books,
-                    fn (array $book) => $book['category'] === $category['slug']
-                )),
-            ])
-            ->filter(fn (array $group) => count($group['books']) > 0)
-            ->values();
+        $groups = $this->categoryGroups();
+        $totalBooks = $groups->sum(fn (array $group) => count($group['books']));
 
         return view('pages.library', [
-            'anyflipBooks' => $books,
             'groups' => $groups,
+            'totalBooks' => $totalBooks,
         ]);
     }
 
@@ -280,7 +269,8 @@ class LibraryController extends Controller
     }
 
     /**
-     * Category list with the number of AnyFlip books in each category.
+     * Category list with the number of AnyFlip and admin-added books in each
+     * category.
      *
      * @return array<int, array<string, mixed>>
      */
@@ -288,11 +278,97 @@ class LibraryController extends Controller
     {
         $counts = AnyflipCatalog::counts();
 
+        foreach ($this->databaseBookList() as $book) {
+            if (isset($counts[$book['category']])) {
+                $counts[$book['category']]++;
+            }
+        }
+
         return array_map(function (array $category) use ($counts) {
             $category['total_books'] = $counts[$category['slug']] ?? 0;
 
             return $category;
         }, $this->categoryList());
+    }
+
+    /**
+     * Books added through the admin panel, without the bundled sample catalog.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function databaseBookList(): array
+    {
+        try {
+            return Book::latest()
+                ->get()
+                ->map(fn (Book $book) => [...$book->toCatalogArray(), 'source' => 'database'])
+                ->all();
+        } catch (\Throwable $exception) {
+            report($exception);
+
+            return [];
+        }
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    private function anyflipBookList(): array
+    {
+        return array_map(
+            fn (array $book) => [...$book, 'source' => 'anyflip'],
+            AnyflipCatalog::books()
+        );
+    }
+
+    /**
+     * AnyFlip books plus admin-added books for one category, newest admin
+     * additions first.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function booksInCategory(string $slug): array
+    {
+        $databaseBooks = array_filter(
+            $this->databaseBookList(),
+            fn (array $book) => $book['category'] === $slug
+        );
+
+        $anyflipBooks = array_filter(
+            $this->anyflipBookList(),
+            fn (array $book) => $book['category'] === $slug
+        );
+
+        return [...array_values($databaseBooks), ...array_values($anyflipBooks)];
+    }
+
+    /**
+     * All categories with their AnyFlip and admin-added books.
+     *
+     * @return \Illuminate\Support\Collection<int, array<string, mixed>>
+     */
+    private function categoryGroups(): \Illuminate\Support\Collection
+    {
+        $databaseBooks = $this->databaseBookList();
+        $anyflipBooks = $this->anyflipBookList();
+
+        return collect($this->categoryList())
+            ->map(function (array $category) use ($databaseBooks, $anyflipBooks) {
+                $books = [
+                    ...array_values(array_filter(
+                        $databaseBooks,
+                        fn (array $book) => $book['category'] === $category['slug']
+                    )),
+                    ...array_values(array_filter(
+                        $anyflipBooks,
+                        fn (array $book) => $book['category'] === $category['slug']
+                    )),
+                ];
+
+                return ['category' => $category, 'books' => $books];
+            })
+            ->filter(fn (array $group) => count($group['books']) > 0)
+            ->values();
     }
 
     /**
