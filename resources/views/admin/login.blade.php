@@ -15,6 +15,13 @@
             </div>
         @endif
 
+        @unless ($databaseReady)
+            <div class="admin-alert admin-alert-error" role="status">
+                Database belum tersambung, jadi login admin belum bisa dipakai di server ini.
+                Halaman Beranda, Informasi, dan Publikasi tetap berjalan normal.
+            </div>
+        @endunless
+
         <form class="admin-form" method="POST" action="{{ route('admin.login.submit') }}">
             @csrf
             <label>
@@ -29,7 +36,7 @@
                 <input type="checkbox" name="remember" value="1">
                 Ingat saya
             </label>
-            <button class="btn" type="submit">Masuk ke panel</button>
+            <button class="btn" type="submit" @disabled(! $databaseReady)>Masuk ke panel</button>
         </form>
     </section>
 @endsection

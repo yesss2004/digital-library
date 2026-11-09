@@ -17,7 +17,9 @@ class AdminController extends Controller
 {
     public function loginForm(): View
     {
-        return view('admin.login');
+        return view('admin.login', [
+            'databaseReady' => $this->databaseAvailable(),
+        ]);
     }
 
     public function login(Request $request): RedirectResponse
@@ -27,7 +29,15 @@ class AdminController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        $user = User::where('email', $credentials['email'])->first();
+        try {
+            $user = User::where('email', $credentials['email'])->first();
+        } catch (\Throwable $exception) {
+            report($exception);
+
+            return back()
+                ->withErrors(['email' => 'Database belum tersambung. Login admin belum bisa dipakai di server ini.'])
+                ->onlyInput('email');
+        }
 
         if (! $user || ! $user->isAdmin() || ! Hash::check($credentials['password'], $user->password)) {
             return back()
@@ -188,5 +198,16 @@ class AdminController extends Controller
         }
 
         return $slug;
+    }
+
+    private function databaseAvailable(): bool
+    {
+        try {
+            \Illuminate\Support\Facades\DB::connection()->getPdo();
+
+            return true;
+        } catch (\Throwable $exception) {
+            return false;
+        }
     }
 }
