@@ -59,6 +59,6 @@ class AnyflipCatalogTest extends TestCase
             ->assertSee('Regulasi Kebencanaan')
             ->assertSee('Sistem Peringatan Dini')
             ->assertSee('Publikasi dan Penelitian')
-            ->assertSee(count(config('library.anyflip_books', [])).' buku');
+            ->assertSee(count(config('library.anyflip_books', [])).' Buku Tersedia');
     }
 }

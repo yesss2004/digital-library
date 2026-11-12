@@ -32,10 +32,13 @@
                 </div>
 
                 <div class="header-intro" id="tentang">
-                    <p>Pusat literasi, informasi, dan pengetahuan kebencanaan Kota Yogyakarta.</p>
+                    <span class="official-badge">Pusat Literasi Kebencanaan Resmi Kota Yogyakarta</span>
                 </div>
                 <form class="header-search" role="search" method="GET" action="{{ route('search') }}">
-                    <span class="search-icon" aria-hidden="true">&#128269;</span>
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/>
+                        <path d="m16.2 16.2 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
                     <input type="search" name="q" value="{{ request('q') }}" placeholder="Cari judul buku AnyFlip..." aria-label="Cari koleksi di rak AnyFlip">
                     <button type="submit">Cari</button>
                 </form>

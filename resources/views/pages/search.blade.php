@@ -19,14 +19,6 @@
         </div>
 
         <form class="search-area" role="search" method="GET" action="{{ route('search') }}">
-            <select class="search-select" name="category" aria-label="Kategori">
-                <option value="">Semua kategori</option>
-                @foreach ($categories as $category)
-                    <option value="{{ $category['slug'] }}" @selected(request('category') === $category['slug'])>
-                        {{ $category['name'] }}
-                    </option>
-                @endforeach
-            </select>
             <input class="search-input" type="search" name="q" value="{{ $query }}" placeholder="Cari judul buku AnyFlip..." aria-label="Kata kunci pencarian" />
             <button class="search-button" type="submit">Cari</button>
         </form>

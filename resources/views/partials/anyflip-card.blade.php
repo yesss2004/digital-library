@@ -4,6 +4,11 @@
     </div>
     <div class="book-caption">
         <strong>{{ $book['title'] }}</strong>
-        <span>Buka flipbook di AnyFlip</span>
+        <span class="book-card-action">
+            Buka flipbook di AnyFlip
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h9m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </span>
     </div>
 </a>
