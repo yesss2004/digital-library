@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [LibraryController::class, 'discover'])->name('discover');
+Route::view('/profil', 'pages.profile')->name('profile');
 
 Route::get('/healthz', function () {
     $manifest = public_path('build/manifest.json');

@@ -141,6 +141,20 @@ class PublicLibraryFeaturesTest extends TestCase
             ->assertDontSee('Pedoman Penyusunan Rencana Penanggulangan Bencana');
     }
 
+    public function test_profile_page_shows_vision_background_and_features(): void
+    {
+        $this->get(route('profile'))
+            ->assertOk()
+            ->assertSee('Literasi kebencanaan untuk Jogja yang lebih tangguh.')
+            ->assertSee('Visi, Misi, dan Tujuan Perpustakaan Digital')
+            ->assertSee('Smart Search')
+            ->assertSee('Koleksi terkurasi')
+            ->assertSee('Sistem Peringatan Dini')
+            ->assertDontSee('Untuk informasi darurat terkini')
+            ->assertSee(route('library'))
+            ->assertSee('aria-current="page"', false);
+    }
+
     public function test_health_check_route_reports_application_state(): void
     {
         $this->getJson(route('healthz'))

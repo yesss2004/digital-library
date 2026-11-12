@@ -25,13 +25,13 @@
                     </div>
                     <nav class="site-nav" aria-label="Navigasi utama">
                         <a href="{{ route('discover') }}" @if (request()->routeIs('discover')) aria-current="page" @endif>Beranda</a>
-                        <a href="{{ route('discover') }}#tentang">Profil</a>
+                        <a href="{{ route('profile') }}" @if (request()->routeIs('profile')) aria-current="page" @endif>Profil</a>
                         <a href="{{ route('categories.index') }}" @if (request()->routeIs('categories.*')) aria-current="page" @endif>Informasi</a>
                         <a href="{{ route('library') }}" @if (request()->routeIs('library', 'books.*')) aria-current="page" @endif>Publikasi</a>
                     </nav>
                 </div>
 
-                <div class="header-intro" id="tentang">
+                <div class="header-intro">
                     <span class="official-badge">Pusat Literasi Kebencanaan Resmi Kota Yogyakarta</span>
                 </div>
                 <form class="header-search" role="search" method="GET" action="{{ route('search') }}">
