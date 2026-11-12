@@ -146,7 +146,7 @@ class AdminBookManagementTest extends TestCase
         $this->get('/')->assertOk()->assertDontSee('Panduan Siaga Longsor');
         $this->get('/categories/mitigasi-bencana')->assertOk()->assertSee('Panduan Siaga Longsor');
         $this->get('/library')->assertOk()->assertSee('Panduan Siaga Longsor');
-        $this->get('/search?q=Longsor')->assertOk()->assertSee('Panduan Siaga Longsor');
+        $this->get('/search?q=Longsor')->assertOk()->assertDontSee('Panduan Siaga Longsor');
         $this->get('/books/panduan-siaga-longsor')->assertOk()->assertSee('Panduan kesiapsiagaan');
         $this->get('/books/panduan-siaga-longsor/read')
             ->assertOk()

@@ -11,7 +11,7 @@
                     @if ($query !== '')
                         Hasil pencarian untuk "{{ $query }}"
                     @else
-                        Cari buku berdasarkan judul, penulis, penerbit, kategori, atau tahun terbit.
+                        Cari koleksi langsung di rak buku AnyFlip.
                     @endif
                 </p>
             </div>
@@ -27,32 +27,24 @@
                     </option>
                 @endforeach
             </select>
-            <input class="search-input" type="search" name="q" value="{{ $query }}" placeholder="Cari judul, penulis, atau penerbit..." aria-label="Kata kunci pencarian" />
-            <select class="search-select" name="year" aria-label="Tahun terbit">
-                <option value="">Semua tahun</option>
-                @foreach ($years as $availableYear)
-                    <option value="{{ $availableYear }}" @selected((string) $year === (string) $availableYear)>
-                        {{ $availableYear }}
-                    </option>
-                @endforeach
-            </select>
+            <input class="search-input" type="search" name="q" value="{{ $query }}" placeholder="Cari judul buku AnyFlip..." aria-label="Kata kunci pencarian" />
             <button class="search-button" type="submit">Cari</button>
         </form>
 
-        @if ($query !== '' || $year !== '' || request('category'))
+        @if ($query !== '' || request('category'))
             <div class="result-count">{{ count($books) }} buku ditemukan</div>
         @endif
 
         @if (count($books))
             <section class="book-grid" aria-label="Hasil pencarian">
                 @foreach ($books as $book)
-                    @include('partials.book-card', ['book' => $book])
+                    @include('partials.anyflip-card', ['book' => $book])
                 @endforeach
             </section>
         @else
             <div class="empty-state">
-                <strong>Buku tidak ditemukan</strong>
-                Coba kata kunci lain, pilih kategori yang berbeda, atau kosongkan filter tahun.
+                <strong>Koleksi AnyFlip tidak ditemukan</strong>
+                Coba kata kunci lain atau pilih kategori yang berbeda.
             </div>
         @endif
     </div>

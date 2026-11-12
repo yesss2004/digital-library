@@ -99,42 +99,27 @@ class LibraryController extends Controller
     {
         $query = trim((string) $request->query('q', ''));
         $categorySlug = trim((string) $request->query('category', ''));
-        $year = trim((string) $request->query('year', ''));
-        $allBooks = $this->bookList();
+        $allBooks = AnyflipCatalog::books();
 
-        $books = collect($allBooks)->filter(function (array $book) use ($query, $categorySlug, $year) {
+        $books = collect($allBooks)->filter(function (array $book) use ($query, $categorySlug) {
             $category = $this->findCategory($book['category']);
 
             $matchesQuery = $query === ''
                 || $this->textContains($book['title'], $query)
-                || $this->textContains($book['author'], $query)
-                || $this->textContains($book['publisher'], $query)
-                || $this->textContains($book['description'], $query)
-                || $this->textContains($category['name'] ?? '', $query)
-                || $this->textContains((string) $book['year'], $query);
+                || $this->textContains($category['name'] ?? '', $query);
 
             $matchesCategory = $categorySlug === '' || $book['category'] === $categorySlug;
-            $matchesYear = $year === '' || (string) $book['year'] === $year;
 
-            return $matchesQuery && $matchesCategory && $matchesYear;
+            return $matchesQuery && $matchesCategory;
         })->values()->all();
 
         $category = $this->findCategory($categorySlug);
-        $years = collect($allBooks)
-            ->pluck('year')
-            ->filter()
-            ->unique()
-            ->sortDesc()
-            ->values()
-            ->all();
 
         return view('pages.search', [
             'books' => $books,
             'categories' => $this->categoryList(),
             'category' => $category,
             'query' => $query,
-            'year' => $year,
-            'years' => $years,
         ]);
     }
 

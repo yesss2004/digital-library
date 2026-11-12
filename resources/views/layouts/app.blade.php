@@ -36,7 +36,7 @@
                 </div>
                 <form class="header-search" role="search" method="GET" action="{{ route('search') }}">
                     <span class="search-icon" aria-hidden="true">&#128269;</span>
-                    <input type="search" name="q" value="{{ request('q') }}" placeholder="Cari regulasi, panduan, atau publikasi..." aria-label="Cari koleksi perpustakaan">
+                    <input type="search" name="q" value="{{ request('q') }}" placeholder="Cari judul buku AnyFlip..." aria-label="Cari koleksi di rak AnyFlip">
                     <button type="submit">Cari</button>
                 </form>
             </header>

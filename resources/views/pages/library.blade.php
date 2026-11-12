@@ -4,25 +4,26 @@
 
 @section('content')
     <div class="page-wrap">
-        <div class="page-head">
-            <div>
-                <h1 class="page-title">Publikasi</h1>
+        <header class="library-hero">
+            <div class="library-hero-copy">
+                <h1 class="page-title">My Library</h1>
                 <p class="page-subtitle">Seluruh koleksi yang tersedia di perpustakaan digital.</p>
             </div>
-            <a class="btn btn-secondary" href="{{ route('discover') }}">&larr; Kembali ke Discover</a>
-        </div>
+            <a class="library-summary" href="{{ config('library.anyflip_bookcase_url') }}" aria-label="Buka rak AnyFlip">
+                <span class="library-summary-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M12 6.5c-1.6-1.6-4.9-2-8-1.2v13c3.1-.8 6.4-.4 8 1.2m0-13c1.6-1.6 4.9-2 8-1.2v13c-3.1-.8-6.4-.4-8 1.2m0-13v13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span class="library-summary-copy">
+                    <span class="library-summary-label">RAK DIGITAL &mdash; ANYFLIP</span>
+                    <span class="library-summary-count">{{ $totalBooks }} Buku Tersedia</span>
+                </span>
+            </a>
+        </header>
 
         <section class="bookcase-section" aria-labelledby="anyflip-bookcase-title">
-            <div class="section-head">
-                <div>
-                    <p class="eyebrow">RAK DIGITAL</p>
-                    <h2 class="section-title" id="anyflip-bookcase-title">Koleksi AnyFlip</h2>
-                    <p class="page-subtitle">Jelajahi {{ $totalBooks }} buku yang tersedia, dikelompokkan berdasarkan kategori.</p>
-                </div>
-                <a class="btn btn-secondary" href="{{ config('library.anyflip_bookcase_url') }}">
-                    Buka rak AnyFlip
-                </a>
-            </div>
+            <h2 class="visually-hidden" id="anyflip-bookcase-title">Koleksi AnyFlip</h2>
             <div class="publish-groups">
                 @forelse ($groups as $group)
                     <section class="publish-group" aria-labelledby="publish-{{ $group['category']['slug'] }}">

@@ -45,21 +45,20 @@ class PublicLibraryFeaturesTest extends TestCase
             ->assertSee('Belum ada favorit');
     }
 
-    public function test_search_matches_publisher_and_filters_by_year_and_category(): void
+    public function test_search_only_shows_anyflip_books_and_filters_by_category(): void
     {
-        $this->get('/search?q=BNPB')
+        $this->get('/search?q=Banjir')
             ->assertOk()
-            ->assertSee('Pedoman Penyusunan Rencana Penanggulangan Bencana');
+            ->assertSee('Rencana Kontingensi Banjir')
+            ->assertSee('https://online.anyflip.com/ybfyv/trsw/')
+            ->assertSee('Buka flipbook di AnyFlip')
+            ->assertDontSee('Kajian Risiko Bencana Kota Yogyakarta')
+            ->assertDontSee('Rencana Penanggulangan Bencana Kota Yogyakarta');
 
-        $this->get('/search?year=2024')
+        $this->get('/search?q=Perencanaan+PB&category=perencanaan-pb')
             ->assertOk()
-            ->assertSee('Panduan Mitigasi Banjir Sungai Code')
-            ->assertDontSee('Modul Sekolah Aman Bencana');
-
-        $this->get('/search?q=BPBD&category=mitigasi-bencana')
-            ->assertOk()
-            ->assertSee('Panduan Mitigasi Banjir Sungai Code')
-            ->assertDontSee('Laporan Kinerja BPBD Kota Yogyakarta');
+            ->assertSee('Buku Penyusunan Rencana Penanggulangan Bencana, Edisi VIII 2020')
+            ->assertDontSee('Kajian Risiko Bencana Kota Yogyakarta');
     }
 
     public function test_pdf_download_is_served_from_private_storage(): void
@@ -125,7 +124,9 @@ class PublicLibraryFeaturesTest extends TestCase
     {
         $this->get(route('library'))
             ->assertOk()
-            ->assertSee('Koleksi AnyFlip')
+            ->assertSee('My Library')
+            ->assertSee('RAK DIGITAL')
+            ->assertSee('Buku Tersedia')
             ->assertSee('Buka rak AnyFlip')
             ->assertDontSee('Koleksi lainnya')
             ->assertDontSee('11 koleksi tersedia');

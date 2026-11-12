@@ -50,12 +50,13 @@ class ExampleTest extends TestCase
         $response->assertSee('Di Balik Peristiwa Tanah Longsor Bukit Menoreh Purworejo');
     }
 
-    public function test_search_finds_disaster_library_collections(): void
+    public function test_search_finds_anyflip_disaster_library_collections(): void
     {
         $response = $this->get('/search?q=banjir');
 
         $response->assertOk();
-        $response->assertSee('Panduan Mitigasi Banjir Sungai Code');
-        $response->assertSee('Panduan Sistem Peringatan Dini Banjir');
+        $response->assertSee('Rencana Kontingensi Banjir');
+        $response->assertSee('Buka flipbook di AnyFlip');
+        $response->assertDontSee('Panduan Mitigasi Banjir Sungai Code');
     }
 }
