@@ -134,11 +134,15 @@ class PublicLibraryFeaturesTest extends TestCase
 
     public function test_discover_page_shows_only_the_anyflip_bookcase(): void
     {
-        $this->get(route('discover'))
+        $response = $this->get(route('discover'))
             ->assertOk()
             ->assertSee('Jelajahi koleksi')
             ->assertSee('Buka flipbook di AnyFlip')
+            ->assertSee('Lihat lainnya')
+            ->assertSee('href="'.route('library').'"', false)
             ->assertDontSee('Pedoman Penyusunan Rencana Penanggulangan Bencana');
+
+        $this->assertSame(8, substr_count($response->getContent(), 'class="book-card"'));
     }
 
     public function test_profile_page_shows_vision_background_and_features(): void

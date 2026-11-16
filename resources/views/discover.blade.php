@@ -9,7 +9,6 @@
                 <p class="eyebrow">KOLEKSI PILIHAN</p>
                 <h2 class="section-title">Jelajahi koleksi</h2>
             </div>
-            <a class="view-all" href="{{ route('library') }}">Semua koleksi <span aria-hidden="true">→</span></a>
         </div>
 
         <section class="recommendations" aria-label="Koleksi pilihan">
@@ -22,6 +21,12 @@
                 </div>
             @endforelse
         </section>
+
+        @if ($hasMoreAnyflipBooks)
+            <div class="catalog-more">
+                <a class="btn btn-secondary" href="{{ route('library') }}">Lihat lainnya</a>
+            </div>
+        @endif
 
         <div class="section-head category-block" id="struktur-perpustakaan">
             <div>

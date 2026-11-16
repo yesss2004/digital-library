@@ -16,8 +16,12 @@ class LibraryController extends Controller
      */
     public function discover()
     {
+        $anyflipBooks = AnyflipCatalog::books();
+        $previewBooks = array_slice($anyflipBooks, 0, 8);
+
         return view('discover', [
-            'anyflipBooks' => AnyflipCatalog::books(),
+            'anyflipBooks' => $previewBooks,
+            'hasMoreAnyflipBooks' => count($anyflipBooks) > count($previewBooks),
             'categories' => $this->categoryListWithCounts(),
         ]);
     }
@@ -29,7 +33,11 @@ class LibraryController extends Controller
     {
         $categories = $this->categoryListWithCounts();
 
-        return view('pages.categories', compact('categories'));
+        return view('pages.categories', [
+            'categories' => $categories,
+            'totalCategories' => count($categories),
+            'totalBooks' => array_sum(array_column($categories, 'total_books')),
+        ]);
     }
 
     /**
