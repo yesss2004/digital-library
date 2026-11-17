@@ -26,7 +26,26 @@
                     <nav class="site-nav" aria-label="Navigasi utama">
                         <a href="{{ route('discover') }}" @if (request()->routeIs('discover')) aria-current="page" @endif>Beranda</a>
                         <a href="{{ route('profile') }}" @if (request()->routeIs('profile')) aria-current="page" @endif>Profil</a>
-                        <a href="{{ route('categories.index') }}" @if (request()->routeIs('categories.*')) aria-current="page" @endif>Informasi</a>
+                        <a href="{{ route('categories.index') }}" @if (request()->routeIs('categories.index')) aria-current="page" @endif>Informasi</a>
+                        <div class="nav-dropdown" data-nav-dropdown>
+                            <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-controls="nav-category-menu" @if (request()->routeIs('categories.show')) aria-current="page" @endif>
+                                Kategori
+                                <svg class="nav-dropdown-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <div class="nav-dropdown-menu" id="nav-category-menu">
+                                @foreach ($navCategories ?? [] as $category)
+                                    <a href="{{ route('categories.show', $category['slug']) }}" @if (request()->routeIs('categories.show') && request()->route('category') === $category['slug']) aria-current="page" @endif>
+                                        <strong>{{ $category['name'] }}</strong>
+                                        <span>{{ $category['collection'] }}</span>
+                                    </a>
+                                @endforeach
+                                <a class="nav-dropdown-all" href="{{ route('categories.index') }}">
+                                    Lihat semua kategori <span aria-hidden="true">&rarr;</span>
+                                </a>
+                            </div>
+                        </div>
                         <a href="{{ route('library') }}" @if (request()->routeIs('library', 'books.*')) aria-current="page" @endif>Publikasi</a>
                     </nav>
                 </div>

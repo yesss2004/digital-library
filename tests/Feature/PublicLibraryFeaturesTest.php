@@ -132,6 +132,21 @@ class PublicLibraryFeaturesTest extends TestCase
             ->assertDontSee('11 koleksi tersedia');
     }
 
+    public function test_category_menu_lists_categories_in_the_navigation(): void
+    {
+        $response = $this->get(route('discover'))
+            ->assertOk()
+            ->assertSee('data-nav-dropdown', false)
+            ->assertSee('Kategori')
+            ->assertSee('Lihat semua kategori');
+
+        foreach (config('library.categories') as $category) {
+            $response
+                ->assertSee($category['name'])
+                ->assertSee('href="'.route('categories.show', $category['slug']).'"', false);
+        }
+    }
+
     public function test_discover_page_shows_only_the_anyflip_bookcase(): void
     {
         $response = $this->get(route('discover'))
