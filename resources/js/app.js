@@ -107,7 +107,7 @@ if (navDropdown instanceof HTMLElement) {
                 menu.style.top = `${top}px`;
                 menu.style.left = '12px';
                 menu.style.right = '12px';
-                menu.style.maxHeight = `min(62vh, calc(100vh - ${top + 12}px))`;
+                menu.style.maxHeight = `min(420px, 62vh, calc(100vh - ${top + 12}px))`;
             }
         };
 
