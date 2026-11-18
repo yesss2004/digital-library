@@ -856,6 +856,7 @@ a {
 }
 
 .profile-mission {
+    align-self: start;
     grid-column: 2;
     grid-row: 1 / span 2;
 }
